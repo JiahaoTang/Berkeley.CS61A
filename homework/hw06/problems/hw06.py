@@ -163,6 +163,24 @@ def make_withdraw(balance, password):
     "Your account is locked. Attempts: ['hwat', 'a', 'n00b']"
     """
     "*** YOUR CODE HERE ***"
+    password_list = []
+    wrong_times = 0
+    def withdraw(amount, input_pswd):
+        nonlocal balance
+        nonlocal wrong_times
+        if wrong_times >= 3:
+            return 'Your account is locked. Attempts: ' + "['" + password_list[0] + "', '" + password_list[1] + "', '" + password_list[2] + "']"
+        elif input_pswd == password:
+            if amount > balance:
+                return 'Insufficient funds'
+            else:
+                balance = balance - amount
+                return balance
+        else:
+            password_list.append(input_pswd)
+            wrong_times += 1
+            return 'Incorrect password'
+    return withdraw
 
 def make_joint(withdraw, old_password, new_password):
     """Return a password-protected withdraw function that has joint access to
@@ -203,3 +221,12 @@ def make_joint(withdraw, old_password, new_password):
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
+    verifyResult = withdraw(0, old_password)
+    if type(verifyResult) == str:
+        return verifyResult
+        
+    def new_withdraw(amount, input_password):
+        if input_password == new_password:
+            input_password = old_password
+        return withdraw(amount, input_password)
+    return new_withdraw
