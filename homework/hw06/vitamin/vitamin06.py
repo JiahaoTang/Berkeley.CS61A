@@ -138,19 +138,12 @@ class FreeChecking(Account):
     >>> ch.withdraw(3)  # ch still charges a fee
     5
     """
-    def __init__(self, Account):
-        Account.__init__(self, Account)
-
     withdraw_fee = 1
     free_withdrawals = 2
     free_time = 0
     def withdraw(self, amount):
-        nonlocal free_time
-        if amount > self.balance:
-            return 'Insufficient funds'
-        elif free_time < 2:
-            self.balance = self.balance - amount
-            free_time += 1
+        self.free_time += 1
+        if self.free_time > 2:
+            return Account.withdraw(self, amount + 1)
         else:
-            self.balance = self.balance - amount - (free_time - 2)
-        return self.balance
+            return Account.withdraw(self, amount)
