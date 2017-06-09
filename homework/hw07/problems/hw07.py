@@ -17,18 +17,17 @@ class Fib():
     >>> start.next().next().next().next().next().next()
     8
     """
-    pre = 0
     def __init__(self):
         self.value = 0
 
     def next(self):
+        output = Fib()
         if self.value == 0:
-            self.value, self.pre = self.value + 1, self.value
-            return self
+            output.value = 1
         else:
-            self.value = pre + self.value
-            pre = self.value
-            return self
+            output.value = self.value + self.previous.value
+        output.previous = self
+        return output
 
     def __repr__(self):
         return str(self.value)
