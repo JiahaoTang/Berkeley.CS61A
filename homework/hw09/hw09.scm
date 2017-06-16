@@ -37,8 +37,16 @@
 )
 
 (define (nodots s)
-  'YOUR-CODE-HERE
-  nil
+  (define (dotted? s)
+    (if (and((pair? s) (null? (cdr (cdr s))))) (#t)(#f)
+    )
+  )
+  (cond 
+    (((dotted? (car s))) (nodots (car s)))
+    (((dotted? (cdr s))) (nodots (cdr s)))
+    ((dotted? s) (list (car s) (cdr s)))
+    (else s)
+  )
 )
 
 ; Sets as sorted lists

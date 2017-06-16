@@ -1,54 +1,54 @@
 test = {
-  'name': 'nodots',
+  'name': 'filter',
   'points': 1,
   'suites': [
     {
       'cases': [
         {
           'code': r"""
-          scm> (nodots '(1 . 2))
-          (1 2)
+          scm> (filter even? '(1 2 3 4))
+          (2 4)
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          scm> (nodots '(1 2 . 3))
-          (1 2 3)
+          scm> (filter odd? '(1 3 5))
+          (1 3 5)
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          scm> (nodots '((1 . 2) 3))
-          ((1 2) 3)
+          scm> (filter odd? '(2 4 6 1))
+          (1)
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          scm> (nodots '(1 (2 3 . 4) . 3))
-          (1 (2 3 4) 3)
+          scm> (filter even? '(3))
+          ()
           """,
           'hidden': False,
           'locked': False
         },
         {
           'code': r"""
-          scm> (nodots '(1 . ((2 3 . 4) . 3)))
-          539ce7c99587b5a410f10ca8bd7e3fab
-          # locked
+          scm> (filter odd? nil)
+          ()
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,
       'setup': r"""
-      scm> (load 'hw09)
+      scm> (load 'lab09)
+      scm> (load 'lab09_extra)
       """,
       'teardown': '',
       'type': 'scheme'
