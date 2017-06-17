@@ -39,11 +39,10 @@ test = {
         {
           'code': r"""
           scm> (nodots '(1 . ((2 3 . 4) . 3)))
-          539ce7c99587b5a410f10ca8bd7e3fab
-          # locked
+          (1 (2 3 4) 3)
           """,
           'hidden': False,
-          'locked': True
+          'locked': False
         }
       ],
       'scored': True,

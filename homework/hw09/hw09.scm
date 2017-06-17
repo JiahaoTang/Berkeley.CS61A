@@ -37,15 +37,14 @@
 )
 
 (define (nodots s)
-  (define (dotted? s)
-    (if (and((pair? s) (null? (cdr (cdr s))))) (#t)(#f)
-    )
-  )
+  (define (dotted? s) (and (pair? s)
+                           (not (or (pair? (cdr s))
+                                    (null? (cdr s))))))
   (cond 
-    (((dotted? (car s))) (nodots (car s)))
-    (((dotted? (cdr s))) (nodots (cdr s)))
-    ((dotted? s) (list (car s) (cdr s)))
-    (else s)
+    ((null? s) s)
+        ((dotted? s) (list (nodots (car s)) (nodots (cdr s))))
+        ((pair? s) (cons (nodots (car s)) (nodots (cdr s))))
+        (else s))
   )
 )
 
@@ -54,9 +53,10 @@
 (define (empty? s) (null? s))
 
 (define (contains? s v)
-    (cond ((empty? s) false)
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+    (cond ((empty? s) 'False)
+          ((> (car s) v) 'False)
+          ((= (car s) v) 'True)
+          (else (contains? (cdr s) v))
           ))
 
 ; Equivalent Python code, for your reference:
@@ -76,14 +76,16 @@
 
 (define (add s v)
     (cond ((empty? s) (list v))
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+          ((= v (car s)) s)
+          ((< v (car s)) (cons v s))
+          ((> v (car s)) (cons (car s) (add (cdr s) v)))
           ))
 
 (define (intersect s t)
     (cond ((or (empty? s) (empty? t)) nil)
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+          ((= (car s) (car t)) (cons (car s) (intersect (cdr s) (cdr t))))
+          ((< (car s) (car t)) (intersect (cdr s) t))
+          ((> (car s) (car t)) (intersect s (cdr t)))
           ))
 
 ; Equivalent Python code, for your reference:
@@ -103,8 +105,9 @@
 (define (union s t)
     (cond ((empty? s) t)
           ((empty? t) s)
-          'YOUR-CODE-HERE
-          (else nil) ; replace this line
+          ((= (car s) (car t)) (cons (car s) (union (cdr s) (cdr t))))
+          ((< (car s) (car t)) (cons (car s) (union (cdr s) t)))
+          ((> (car s) (car t)) (cons (car t) (union s (cdr t))))
           ))
 
 ; Q9 - Survey
