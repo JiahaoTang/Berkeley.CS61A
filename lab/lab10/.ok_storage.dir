@@ -1,0 +1,6 @@
+'LambdaFunction.apply-last_attempt', (2560, 74)
+'LambdaFunction.apply-attempts', (2048, 71)
+'CallExpr.eval-last_attempt', (1536, 74)
+'CallExpr.eval-attempts', (1024, 71)
+'Name.eval-last_attempt', (512, 74)
+'Name.eval-attempts', (0, 71)
