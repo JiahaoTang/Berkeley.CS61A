@@ -40,7 +40,7 @@ def permutations(lst):
     else:
         for elem in permutations(lst[1:]):
             for i in range(len(lst)):
-                yield list(elem[0:i]) + [lst[0]] + list(elem[i:])
+                yield list(elem[:i]) + [lst[0]] + list(elem[i:])
 
 class Tree:
     def __init__(self, root, branches=[]):
