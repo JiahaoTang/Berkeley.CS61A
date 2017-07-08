@@ -15,7 +15,8 @@ def scale(s, k):
     [2, 4, 6, 8, 10]
     """
     "*** YOUR CODE HERE ***"
-
+    for elem in s:
+        yield elem * k
 # Q9
 def merge(s0, s1):
     """Yield the elements of strictly increasing iterables s0 and s1, removing
@@ -33,7 +34,18 @@ def merge(s0, s1):
     i0, i1 = iter(s0), iter(s1)
     e0, e1 = next(i0), next(i1)
     "*** YOUR CODE HERE ***"
-
+    while True:
+        if e0 > e1:
+            yield e1
+            e1 = next(i1)
+        elif e0 < e1:
+            yield e0
+            e0 = next(i0)
+        else:
+            yield e0
+            e0 = next(i0)
+            e1 = next(i1)
+            
 # Q10
 def remainders_generator(m):
     """
@@ -58,9 +70,15 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
-
+    def group_generator(i):
+        yield 0 * m + i
+        for elem in naturals():
+            yield elem * m + i
+    for counter in range(m):
 # the naturals generator is used for testing scale and merge functions
 def naturals():
+        yield group_generator(counter)
+
     """A generator function that yields the infinite sequence of natural
     numbers, starting at 1.
 
@@ -89,3 +107,11 @@ def zip(*iterables):
     [2, 5, 8]
     """
     "*** YOUR CODE HERE ***"
+    #length = []
+    #for lst in *iterables:
+    #    length.append(len(lst))
+    #
+    #times = min(length)
+    for z in zip(*iterables):
+        yield list(z)
+

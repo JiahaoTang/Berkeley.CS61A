@@ -11,6 +11,9 @@ def countdown(n):
     0
     """
     "*** YOUR CODE HERE ***"
+    while n >= 0:
+        yield n
+        n -= 1
 
 def trap(s, k):
     """Return a generator that yields the first K values in iterable S,
@@ -28,6 +31,12 @@ def trap(s, k):
     """
     assert len(s) >= k
     "*** YOUR CODE HERE ***"
+    i = 0
+    while i + 1 <= k:
+        yield s[i]
+        i += 1
+    raise ValueError
+    yield
 
 def repeated(t, k):
     """Return the first value in iterable T that appears K times in a row.
@@ -42,6 +51,17 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    
+    flag = True
+    for elem in t:
+        if flag == True:
+            flag, pre = False, elem
+        elif elem != pre:
+            pre, counter = elem, 1
+        else:
+            counter += 1
+            if counter == k:
+                return elem
 
 def hailstone(n):
     """
@@ -57,3 +77,10 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    while n != 1:
+        yield n
+        if n % 2 == 0:
+            n = n // 2
+        elif n % 2 != 0:
+            n = n * 3 + 1
+    yield 1
