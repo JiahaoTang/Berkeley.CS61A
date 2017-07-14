@@ -62,7 +62,33 @@ create table stacks as
 -- non_parents is an optional, but recommended question
 -- All non-parent relations ordered by height difference
 create table non_parents as
-  select "REPLACE THIS LINE WITH YOUR SOLUTION";
+  with 
+    grand_relationship1(grandparent, grandchild) as (
+      select a.parent as grandparent, b.child as grandchild 
+        from parents as a, parents as b
+        where a.child = b.parent),
+    grand_relationship2(grandchild, grandparent) as (
+      select b.child as grandparent, a.parent as grandchild 
+        from parents as a, parents as b
+        where a.child = b.parent
+      )
+    
+    select a.grandparent as ancestor, b.grandchild as descendent 
+      from grand_relationship1 as a, grand_relationship1 as b, 
+           parents as c, dogs as d, dogs as e
+      where a.grandparent <> c.parent and b.grandchild <> c.child and 
+            d.name = a.grandparent and e.name = b.grandchild
+      group by b.grandchild, a.grandparent
+      order by d.height - e.height --union
+    
+    --select a.grandchild as ancestor, b.grandparent as descendent 
+      --from grand_relationship2 as a, grand_relationship2 as b, 
+        --   parents as c, dogs as d, dogs as e
+      --where b.grandparent <> c.parent and a.grandchild <> c.child and 
+        --    d.name = b.grandparent and e.name = a.grandchild
+      --group by a.grandchild, b.grandparent
+      --order by d.height - e.height
+      ;
 
 create table ints as
     with i(n) as (
@@ -72,7 +98,14 @@ create table ints as
     select n from i;
 
 create table divisors as
-    select "REPLACE THIS LINE WITH YOUR SOLUTION";
+  with
+    merge(number, second) as (
+      select a.n as number, b.n as second from ints as a, ints as b
+      where b.n <= a.n
+    )
+    select number, count(*) as divisors_count from merge
+      where number % second == 0
+      group by number;
 
 create table primes as
-    select "REPLACE THIS LINE WITH YOUR SOLUTION";
+    select number from divisors where divisors_count = 2;
